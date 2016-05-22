@@ -1,0 +1,30 @@
+---
+- name: ensure apache is at the latest version
+  yum:
+    name: httpd
+    state: present
+  notify:
+    - restart httpd
+
+
+# - name: Copy nginx config
+#   sudo: yes
+#   template:
+#     src: phabricator.conf
+#     dest: /etc/nginx/sites-enabled/{{ domain }}.conf
+#   notify:
+#     - restart nginx
+
+# - name: ensure httpd is enabled
+#   service:
+#     name: httpd
+#     enabled: yes
+
+- name: ensure httpd is enabled
+  become: yes
+  template:
+    src: httpd.ini.j2
+    dest: /etc/supervisord.d/httpd.ini.j2
+    owner: root
+    group: root
+    mode: 0755

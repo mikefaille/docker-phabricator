@@ -1,0 +1,6 @@
+---
+domain: phabricator.local
+phabricator_path: /srv/www/phabricator/
+repositories_path: /var/repo/
+timezone: America/New_York
+phase: build

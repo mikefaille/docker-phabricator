@@ -1,0 +1,63 @@
+---
+- name: add user vcs-user
+  become: yes
+  user:
+    name: vcs-user
+    system: yes
+    state: present
+    # password: NP
+
+- name: add vcs-user as sudoer
+  become: yes
+  lineinfile:
+    dest: /etc/sudoers
+    state: present
+    regexp: 'vcs-user'
+    line: 'vcs-user ALL=(phd) SETENV: NOPASSWD: /usr/bin/git-upload-pack, /usr/bin/git-receive-pack'
+
+- name: create script dir
+  become: yes
+  file:
+    path: /scripts
+    owner: root
+    group: root
+    state: directory
+    mode: 0755
+
+- name: configure phabricator-ssh-hook.sh
+  become: yes
+  template:
+    src: phabricator-ssh-hook.sh.j2
+    dest: /scripts/phabricator-ssh-hook.sh
+    owner: root
+    group: root
+    mode: 0755
+
+  - name: configure phabricator-ssh-hook.sh
+  become: yes
+  template:
+    src: sshd.ini.j2
+    dest: /etc/supervisord.d/sshd.ini.j2
+    owner: root
+    group: root
+    mode: 0755
+
+
+- name: configure sshd_config
+  become: yes
+  template:
+    src: sshd_config.j2
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+  notify:
+    - restart sshd
+
+
+- name: set phd.user
+  become: yes
+  shell: /srv/www/phabricator/bin/config set phd.user phd
+
+- name: set diffusion.ssh-user
+  become: yes
+  shell: /srv/www/phabricator/bin/config set diffusion.ssh-user vcs-user

@@ -1,0 +1,5 @@
+- name: install openssh-server
+  become: yes
+  package:
+    name: openssh-server
+    state: latest

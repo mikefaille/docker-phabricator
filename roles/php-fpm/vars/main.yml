@@ -1,0 +1,12 @@
+php_packages:
+  - name: php
+  - name: php-mysql
+  - name: php-gd
+  - name: php-cli
+  - name: php-process
+  - name: php-devel
+  - name: php-pecl-apc
+  - name: php-pecl-json
+  - name: php-mbstring
+
+# See : https://github.com/phacility/phabricator/blob/master/scripts/install/install_rhel-derivs.sh
