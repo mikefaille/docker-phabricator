@@ -1,7 +1,7 @@
 ---
 - name: restart httpd
   become: yes
-  service:
+  supervisorctl:
     name: httpd
     state: restarted
   when: phase == "running"
