@@ -37,7 +37,7 @@
   become: yes
   package:
     name: supervisor
-    state: latest
+    state: present
 
 
 # - name: Set timezone to {{ timezone }}

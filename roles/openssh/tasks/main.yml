@@ -2,4 +2,4 @@
   become: yes
   package:
     name: openssh-server
-    state: latest
+    state: present
