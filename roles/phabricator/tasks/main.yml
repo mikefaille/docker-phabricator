@@ -92,7 +92,7 @@
     state: directory
 
 # - name: copy phd init script
-#   sudo: yes
+#   become: yes
 #   template:
 #     src: phd.j2
 #     dest: /etc/init.d/phd
