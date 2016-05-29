@@ -6,14 +6,16 @@
   notify:
     - restart httpd
 
-
+# apply only when docker run to set domain variable only when we setup container
+# (not image)
 - name: Copy httpd config
   become: yes
   template:
-    src: phabricator.conf
-    dest: /etc/httpd/conf.d/{{ domain }}.conf
+    src: phabricator.conf.ini
+    dest: /etc/httpd/conf.d/phabricator.conf
   notify:
     - restart httpd
+  when: phase == "running"
 
 # - name: ensure httpd is enabled
 #   service:
