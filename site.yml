@@ -8,7 +8,7 @@
 
   roles:
     - common
-    - nginx
+    - httpd
     - php-fpm
     # - mysql
     - openssh
