@@ -67,12 +67,15 @@
     version: stable
     depth: 1
 
+# (must be load during run time)
 - name: Place phabricator config
   become: yes
   become_user: phd
   template:
-    src: myconfig.conf.php
+    src: myconfig.conf.php.j2
     dest: "{{ phabricator_path }}conf/default.conf.php"
+  when: phase == "running"
+
 
 - name: Migrate the database
   become: yes
