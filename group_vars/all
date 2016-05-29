@@ -4,5 +4,6 @@ phabricator_path: /srv/www/phabricator/
 repositories_path: /var/repo/
 timezone: America/New_York
 phase: build
-mysql.user: root
-mysql.host: localhost
+mysql:
+  user: root
+  host: localhost
