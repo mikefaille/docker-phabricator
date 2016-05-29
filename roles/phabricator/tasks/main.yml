@@ -1,8 +1,9 @@
 ---
 - name: add repo
   get_url:
-    url: https://copr.fedorainfracloud.org/coprs/tflink/phabricator/repo/epel-7/tflink-phabricator-epel-7.repo
-    dest: /etc/foo.conf
+    url: https://copr.fedorainfracloud.org/coprs/tflink/phabricator/repo/epel-7/"{{item}}"
+    dest: /etc/yum.repos.d/{{item}}
+  with_items: "tflink-phabricator-epel-7.repo"
   # yum_repository:
   #   name: phabricator
   #   description: Copr repo for phabricator owned by tflink
