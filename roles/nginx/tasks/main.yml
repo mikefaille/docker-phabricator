@@ -7,13 +7,13 @@
     - restart httpd
 
 
-# - name: Copy nginx config
-#   sudo: yes
-#   template:
-#     src: phabricator.conf
-#     dest: /etc/nginx/sites-enabled/{{ domain }}.conf
-#   notify:
-#     - restart nginx
+- name: Copy httpd config
+  become: yes
+  template:
+    src: phabricator.conf
+    dest: /etc/httpd/conf.d/{{ domain }}.conf
+  notify:
+    - restart httpd
 
 # - name: ensure httpd is enabled
 #   service:
