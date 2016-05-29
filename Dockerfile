@@ -11,7 +11,7 @@ RUN echo "localhost ansible_connection=local" > /etc/ansible/hosts
 # RUN ansible-galaxy install geerlingguy.php
 RUN ansible-playbook  --become-method=su /ansible-script/site.yml -vv
 
-CMD "ansible-playbook -e phase=running --become-method=su /ansible-script/site.yml -vv"
+CMD ansible-playbook -e phase=running --become-method=su /ansible-script/site.yml -vv
 
     # cd /usr/src && \
     # git clone --depth=1 --branch v2.0.2.0-1 git://github.com/ansible/ansible.git --recursive && \
