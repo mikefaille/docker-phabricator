@@ -1,0 +1,21 @@
+version: "1"
+services:
+  # Add your containers here, specifying the base image you want to build from
+  # For example:
+  #
+  web:
+    image: local/centos-ansible
+    environment:
+        - "ENV MYSQL_HOST=localhost"
+        - "ENV MYSQL_USER=root"
+    dev_overrides:
+      environment:
+        - "DEBUG=1"
+    command: /usr/bin/supervisord
+
+
+# registries: {}
+  # Add optional registries used for deployment. For example:
+  #  google:
+  #    url: https://gcr.io
+  #    namespace: my-cool-project-xxxxxx

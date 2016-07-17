@@ -1,17 +1,31 @@
 FROM local/centos-ansible
 # local/centos-ansible
 
-ADD . /ansible-script
+# Set the environment up
+ENV TERM xterm-256color
 
+RUN ansible  all -i "localhost," -c local -m package -a 'name=supervisor use=yum' && easy_install supervisor-stdout
+
+ADD ansible /ansible-script
+
+# COPY ressources/ansible.ini /etc/supervisord.d/ansible.ini
+ENV MYSQL_HOST=localhost
+ENV MYSQL_USER=root
 
 RUN echo "localhost ansible_connection=local" > /etc/ansible/hosts
     # git clone -b stable-2.1 --depth=1 https://github.com/ansible/ansible-modules-extras.git /ansible-script/ansible-modules-extras
 
 # RUN export ANSIBLE_LIBRARY=$ANSIBLE_LIBRARY:/ansible-script/ansible-modules-extras && \
 # RUN ansible-galaxy install geerlingguy.php
-RUN ansible-playbook  --become-method=su /ansible-script/site.yml -vv
 
-CMD ansible-playbook -e phase=running --become-method=su /ansible-script/site.yml -vv
+# TODO erase me
+# RUN ansible localhost -s -m debug -a msg="{{ phabricator_conf.categories.key }}" -e @/ansible-script/group_vars/all -vv
+RUN ansible-playbook -e phase=building --become-method=su /ansible-script/main.yml -vv
+
+
+
+CMD /usr/bin/supervisord -n
+# CMD ansible-playbook -e phase=running --become-method=su /ansible-script/site.yml -vv
 
     # cd /usr/src && \
     # git clone --depth=1 --branch v2.0.2.0-1 git://github.com/ansible/ansible.git --recursive && \

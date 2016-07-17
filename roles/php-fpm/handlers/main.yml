@@ -1,7 +1,0 @@
----
-- name: restart php-fpm
-  become: yes
-  supervisorctl:
-    name: php5-fpm
-    state: restarted
-  when: phase == "running"

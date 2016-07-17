@@ -33,7 +33,7 @@
     group: root
     mode: 0755
 
-  - name: configure phabricator-ssh-hook.sh
+- name: configure phabricator-ssh-hook.sh
   become: yes
   template:
     src: sshd.ini.j2

@@ -1,0 +1,9 @@
+- name: do not require tty for ssh-ing user
+  remote_user: root
+  template:
+    src: disable-requiretty
+    dest: /etc/sudoers.d/disable-requiretty
+    owner: root
+    group: root
+    mode: 0440
+    validate: "visudo -cf %s"

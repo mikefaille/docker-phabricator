@@ -1,0 +1,15 @@
+---
+domain: phabricator.local
+phabricator_path: /srv/www/phabricator/
+phabricator_conf:
+  'mysql.user': root
+  'mysql.host': mysql
+  'mysql.pass': pwd
+
+
+repositories_path: /var/repo/
+timezone: America/New_York
+phase: build
+# mysql:
+#   user: root
+#   host: lookup('env','MYSQL_HOST')

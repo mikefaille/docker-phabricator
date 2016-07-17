@@ -1,0 +1,8 @@
+---
+- name: restart phd
+  become: yes
+  become_user: phd
+  command: bin/phd restart
+  args:
+    chdir: "{{ phabricator_path }}"
+  when: phase == "running"

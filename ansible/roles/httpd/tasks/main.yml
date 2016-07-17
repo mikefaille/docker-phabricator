@@ -1,5 +1,5 @@
 ---
-- name: ensure apache is at the latest version
+- name: ensure httpd is present
   yum:
     name: httpd
     state: present
@@ -17,13 +17,14 @@
     - restart httpd
   when: phase == "running"
 
+
+
 # - name: ensure httpd is enabled
 #   service:
 #     name: httpd
 #     enabled: yes
 
 - name: ensure httpd is enabled
-  become: yes
   template:
     src: httpd.ini.j2
     dest: /etc/supervisord.d/httpd.ini.j2

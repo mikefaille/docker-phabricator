@@ -1,0 +1,70 @@
+---
+- name: install sudo
+  package: name=sudo state=present
+
+
+- name: do not require tty for ssh-ing user
+  remote_user: root
+  template:
+    src: disable-requiretty.j2
+    dest: /etc/sudoers.d/disable-requiretty
+    owner: root
+    group: root
+    mode: 0440
+    validate: "visudo -cf %s"
+
+
+- name: install base components
+  package: name="{{item}}" state=present
+  with_flattened:
+    - git
+    - openssh-server
+    - supervisor
+
+
+
+- name: Add localconfig for ansible
+  blockinfile:
+    dest: /etc/ansible/hosts
+    block: |
+      localhost ansible_connection=local
+
+
+
+# TODO : configure host on boot
+# - name: Add alias to 127.0.0.1 to /etc/hosts
+#   sudo: yes
+#   lineinfile:
+#     dest: /etc/hosts
+#     regexp: "^127.0.0.1 {{ domain }}"
+#     line: "127.0.0.1 {{ domain }}"
+#     state: present
+
+# - name: remove the apache package
+#   package: name=apache state=absent
+
+    # use: yum
+  # with_flattened:
+  #   - git
+  #   - sudo
+  #   - openssh-server
+
+- name: Prepare ansible startup script
+  copy:
+    src: "ressources/ansible.ini"
+    dest: /etc/supervisord.d/ansible.ini
+  when: phase == "build"
+
+- name: set timezone variables
+  file: src=/usr/share/zoneinfo/{{ timezone }} dest=/etc/locatime owner=root group=root state=link
+
+# - name: run supervisord
+#   command: "supervisord -c /etc/supervisord.conf"
+#   # args:
+#   #   creates: /var/run/supervisor.sock
+
+
+# - name: Set timezone to {{ timezone }}
+#   when: ansible_date_time.tz != '{{ timezone }}'
+#   command: timedatectl set-timezone {{ timezone }}
+#   tags: tz

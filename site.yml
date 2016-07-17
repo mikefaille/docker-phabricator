@@ -1,5 +1,5 @@
 ---
-- name: Phabricator installer with NGINX, PHP-FPM, MySQL, GIT
+- name: Phabricator installer with httpd, PHP-FPM, MySQL, GIT
   # hosts: all
   hosts: localhost
   connection: local
