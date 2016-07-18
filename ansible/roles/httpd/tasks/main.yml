@@ -13,16 +13,25 @@
 #     state: present
 #   when: phase == "running"
 
-# # apply only when docker run to set domain variable only when we setup container
-# # (not image)
-# - name: Copy httpd config
-#   become: yes
-#   template:
-#     src: httpd.ini.j2
-#     dest: /etc/httpd/conf.d/httpd.ini
-#   notify:
-#     - start httpd
-#   when: phase == "running"
+- name: Copy httpd config
+  become: yes
+  template:
+    src: phabricator.conf.j2
+    dest: /etc/httpd/conf.d/phabricator.conf
+  notify:
+    - start httpd
+  when: phase == "running"
+
+- name: Copy httpd config
+  become: yes
+  file:
+    path: /etc/httpd/conf.d/welcome.conf
+    state: absent
+  notify:
+    - start httpd
+  when: phase == "building"
+
+
 
 
 
