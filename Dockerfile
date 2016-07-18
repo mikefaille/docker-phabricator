@@ -24,7 +24,7 @@ RUN ansible-playbook -e phase=building --become-method=su /ansible-script/main.y
 
 
 
-CMD /usr/bin/supervisord -n
+CMD ["/bin/sh", "-c", "/usr/bin/supervisord -n"]
 # CMD ansible-playbook -e phase=running --become-method=su /ansible-script/site.yml -vv
 
     # cd /usr/src && \
