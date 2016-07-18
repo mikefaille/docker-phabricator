@@ -161,7 +161,7 @@
 #     dest: "{{ phabricator_path }}conf/default.conf.php"
 #   when: phase == "running"
 
-- debug: var=phabricator_conf
+# - debug: var=phabricator_conf
 
 - name: wait for mysql
   wait_for:
