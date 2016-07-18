@@ -5,3 +5,10 @@
     name: httpd
     state: restarted
   when: phase == "running"
+
+- name: start httpd
+  become: yes
+  supervisorctl:
+    name: httpd
+    state: started
+  when: phase == "running"

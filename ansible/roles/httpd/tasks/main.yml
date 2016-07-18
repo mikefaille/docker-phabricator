@@ -1,21 +1,28 @@
 ---
-- name: ensure httpd is present
-  yum:
-    name: httpd
-    state: present
-  notify:
-    - restart httpd
-
-# apply only when docker run to set domain variable only when we setup container
-# (not image)
-- name: Copy httpd config
-  become: yes
+- name: ensure httpd is enabled
   template:
-    src: phabricator.conf.ini
-    dest: /etc/httpd/conf.d/phabricator.conf
-  notify:
-    - restart httpd
-  when: phase == "running"
+    src: httpd.ini.j2
+    dest: /etc/supervisord.d/httpd.ini
+    owner: root
+    group: root
+    mode: 0755
+
+# - name: ensure httpd is present
+#   yum:
+#     name: httpd
+#     state: present
+#   when: phase == "running"
+
+# # apply only when docker run to set domain variable only when we setup container
+# # (not image)
+# - name: Copy httpd config
+#   become: yes
+#   template:
+#     src: httpd.ini.j2
+#     dest: /etc/httpd/conf.d/httpd.ini
+#   notify:
+#     - start httpd
+#   when: phase == "running"
 
 
 
@@ -23,11 +30,3 @@
 #   service:
 #     name: httpd
 #     enabled: yes
-
-- name: ensure httpd is enabled
-  template:
-    src: httpd.ini.j2
-    dest: /etc/supervisord.d/httpd.ini.j2
-    owner: root
-    group: root
-    mode: 0755
