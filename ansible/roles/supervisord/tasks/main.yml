@@ -1,0 +1,82 @@
+---
+# based on https://github.com/Supervisor/supervisor/issues/173
+
+# Example group command from Ansible Playbooks
+- name: Add supervisord group
+  group: name=supervisor state=present
+
+- name: Configure supervisord default socket mod
+  ini_file:
+    dest: /etc/supervisord.conf
+    section: unix_http_server
+    option: "chmod"
+    value: "0666"
+    mode: 0655
+    backup: yes
+    no_extra_spaces: yes
+  when: phase == "building"
+
+- name: Configure supervisord log file for stdout
+  ini_file:
+    dest: /etc/supervisord.conf
+    section: supervisord
+    option: "stdout_logfile"
+    value: "/dev/stdout"
+    mode: 0655
+    backup: yes
+    no_extra_spaces: yes
+  when: phase == "building"
+
+- name: Configure supervisord  log file for stdout max bytes
+  ini_file:
+    dest: /etc/supervisord.conf
+    section: supervisord
+    option: "stdout_logfile_maxbytes"
+    value: "0"
+    mode: 0655
+    backup: yes
+    no_extra_spaces: yes
+  when: phase == "building"
+
+- name: Configure supervisord log file for stderr
+  ini_file:
+    dest: /etc/supervisord.conf
+    section: supervisord
+    option: "stderr_logfile"
+    value: "/dev/stderr"
+    mode: 0655
+    backup: yes
+    no_extra_spaces: yes
+  when: phase == "building"
+
+- name: Configure supervisord log file for stderr max bytes
+  ini_file:
+    dest: /etc/supervisord.conf
+    section: supervisord
+    option: "stderr_logfile_maxbytes"
+    value: "0"
+    mode: 0655
+    backup: yes
+    no_extra_spaces: yes
+  when: phase == "building"
+
+- name: Configure supervisord default socket owner
+  ini_file:
+    dest: /etc/supervisord.conf
+    section: unix_http_server
+    option: "chown"
+    value: "root:supervisor"
+    mode: 0655
+    backup: yes
+    no_extra_spaces: yes
+  when: phase == "building"
+
+
+- name: copy ansible init script
+  template:
+    src: ansible.ini.j2
+    dest: /etc/supervisord.d/ansible-phd.ini
+    owner: root
+    group: root
+    mode: 0755
+  when: phase == "building"

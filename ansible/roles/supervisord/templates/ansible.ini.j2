@@ -1,8 +1,8 @@
-[program:phd]
+[program:ansible]
 command=ansible-playbook -e phase=running --become-method=su /ansible-script/main.yml -vv
 user=root
 autostart=true
-autorestart=true
+autorestart=false
 stdout_logfile=/dev/stdout
 stdout_logfile_maxbytes=0
 stderr_logfile=/dev/stderr
