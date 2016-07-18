@@ -178,13 +178,13 @@
 
 
 
-- name: run phd
-  become: yes
-  become_user: phd
-  command: bin/phd start
-  args:
-    chdir: "{{ phabricator_path }}"
-  when: phase == "running"
+# - name: run phd
+#   become: yes
+#   become_user: phd
+#   command: bin/phd start
+#   args:
+#     chdir: "{{ phabricator_path }}"
+#   when: phase == "running"
 
 
 # - name: copy phd init script
@@ -216,10 +216,10 @@
 #   when: phase == "running"
 
 
-# - name: copy phabricator init script
-#   template:
-#     src: phd.ini.j2
-#     dest: /etc/supervisord.d/phabricator-phd.ini
-#     owner: root
-#     group: root
-#     mode: 0755
+
+- name: start phd
+  become: yes
+  supervisorctl:
+    name: phd
+    state: started
+  when: phase == "running"
