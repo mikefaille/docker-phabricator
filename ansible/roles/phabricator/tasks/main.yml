@@ -107,9 +107,6 @@
 #     create: yes
 #   when: phase == "building"
 
-
-
-
 - name: Configure phabricator
   command: "bin/config set {{ item.key }} {{ item.value }} "
   args:
@@ -144,8 +141,6 @@
     group: phd
     state: directory
   when: phase == "building"
-
-
 
 # - name: Configure phabricator
 #   command :  bin/config.sh set "{{ item.key }} {{ item.value }}"
