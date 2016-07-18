@@ -1,14 +1,13 @@
 ---
 - name: Install php and deps
   become: yes
-  package:
-    name: "{{ item.name }}"
-    state: present
-  with_items: "{{php_packages}}"
+  package: name="{{item}}" state=present
+  with_flattened: "{{php_packages}}"
+  when: phase == "building"
 
 - name: Copy php.ini configuration
   become: yes
   template:
     src: php.ini
     dest: /etc/php.d/phabricator.ini
-  notify: restart httpd
+# TODO      notify: start httpd
