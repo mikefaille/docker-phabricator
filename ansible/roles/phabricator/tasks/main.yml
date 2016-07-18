@@ -118,6 +118,23 @@
     "{{ phabricator_conf }}"
   when: phase == "building"
 
+- name: Create the pid directory
+  become: yes
+  file:
+    path: "/var/tmp/phd/pid"
+    owner: phd
+    group: phd
+    state: directory
+  when: phase == "building"
+
+- name: Create the log directory
+  become: yes
+  file:
+    path: "/var/tmp/phd/log"
+    owner: phd
+    group: phd
+    state: directory
+  when: phase == "building"
 
 - name: Create the repository directory
   become: yes
