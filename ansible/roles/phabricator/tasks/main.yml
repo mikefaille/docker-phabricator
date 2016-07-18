@@ -19,15 +19,26 @@
     # update_password: always
 
 
-- name: copy ansible init script
+- name: Install phd init script
+  become: yes
   template:
-    src: ansible.ini.j2
-    dest: /etc/supervisord.d/ansible-phd.ini
+    src: phd.ini.j2
+    dest: /etc/supervisord.d/phabricator-phd.ini
     owner: root
     group: root
     mode: 0755
   when: phase == "building"
 
+
+- name: Install phabricator deamons manager
+  become: yes
+  template:
+    src: phabricator-deamon-mgr.sh.j2
+    dest: /usr/local/bin/phabricator-deamon-mgr.sh
+    owner: root
+    group: root
+    mode: 0755
+  when: phase == "building"
 
 - name: add phd group
   group:

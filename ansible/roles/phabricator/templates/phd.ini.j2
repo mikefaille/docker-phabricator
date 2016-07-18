@@ -1,9 +1,10 @@
 [program:phd]
-command=/usr/bin/pidproxy /var/tmp/phd/pid {{ phabricator_path }}/bin/phd restart
-user=phd
-autostart=true
+;command=/usr/bin/pidproxy /var/run/phd.pid /usr/local/bin/phabricator-deamon-mgr.sh
+command=/usr/local/bin/phabricator-deamon-mgr.sh
+user=root
+autostart=false
 autorestart=true
-stdout_logfile=/dev/stdout
-stdout_logfile_maxbytes=0
-stderr_logfile=/dev/stderr
-stderr_logfile_maxbytes=0
+; stdout_logfile=/dev/stdout
+; stdout_logfile_maxbytes=0
+; stderr_logfile=/dev/stderr
+; stderr_logfile_maxbytes=0

@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# Inspired by :  https://github.com/wingedkiwi/phabricator-container/blob/master/services/phd/phd.runit
+set -euo pipefail
+sudo -u phd {{ phabricator_path }}/bin/phd start
+PHD_PID=$(sudo -u phd {{ phabricator_path }}/bin/phd status --local | awk '{print $4}' | tail -n -1)
+echo $PHD_PID > /var/run/phd.pid
+DAEMON_FILE=$(ls -t   /var/tmp/phd/pid/daemon.* | grep $PHD_PID |  head -n 1)
+
+graceful_shutdown() {
+    set +e
+    echo "Shutting down phd daemons"
+
+    # Send SIGINT signal because SIGTERM wouldn't eventually terminale phd-daemon
+    kill -2 $PHD_PID
+    while kill -0 $PHD_PID 2>/dev/null ;  do
+        sleep 1
+    done
+    rm -f $DAEMON_FILE /var/run/phd.pid
+
+    exit 1
+}
+
+trap graceful_shutdown INT TERM ERR
+
+while [[ $(cat /var/run/phd.pid) == $PHD_PID  ]]  && [ -f $DAEMON_FILE ] && kill -0 $PHD_PID 2>/dev/null ;  do
+    sleep 1
+done
+
+kill -15 $$
