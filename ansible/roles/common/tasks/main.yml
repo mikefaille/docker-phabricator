@@ -20,7 +20,7 @@
     - git
     - openssh-server
     - supervisor
-
+  when: phase == "building"
 
 
 - name: Add localconfig for ansible

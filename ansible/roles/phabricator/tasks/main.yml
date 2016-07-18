@@ -99,7 +99,7 @@
     depth: 1
   when: phase == "building"
 
-  # - name: Selecting default.conf.php as Configuration File
+# - name: Selecting default.conf.php as Configuration File
 #   lineinfile:
 #     dest: "{{ phabricator_path }}conf/local/ENVIRONMENT"
 #     line: "default"
