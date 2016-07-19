@@ -50,7 +50,42 @@
     dest: /etc/php.d/phabricator.ini
     section: PHP
     option: "upload_max_filesize"
-    value: "64MB"
+    value: "64M"
+    mode: 0655
+    backup: yes
+    no_extra_spaces: yes
+  when: phase == "building"
+
+
+- name: OPcache shared memory storage size (in MB).
+  ini_file:
+    dest: /etc/php.d/phabricator.ini
+    section: opcache
+    option: "opcache.memory_consumption"
+    value: "128"
+    mode: 0655
+    backup: yes
+    no_extra_spaces: yes
+  when: phase == "building"
+
+- name:  OPcache max_accelerated_files
+  ini_file:
+    dest: /etc/php.d/phabricator.ini
+    section: opcache
+    option: "opcache.max_accelerated_files"
+    value: "10000"
+    mode: 0655
+    backup: yes
+    no_extra_spaces: yes
+  when: phase == "building"
+
+
+- name: Disable OPcache timestamp validation on production
+  ini_file:
+    dest: /etc/php.d/phabricator.ini
+    section: opcache
+    option: "opcache.validate_timestamps"
+    value: "0"
     mode: 0655
     backup: yes
     no_extra_spaces: yes
