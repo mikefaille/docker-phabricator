@@ -1,11 +1,14 @@
 ---
 domain: phabricator.local
-phabricator_path: /srv/www/phabricator/
+phabricator_path: /srv/www/phabricator
 phabricator_conf:
-  'mysql.user': root
-  'mysql.host': mysql
-  'mysql.pass': pwd
-
+  'mysql.user': 'root'
+  'mysql.host': 'mysql'
+  'mysql.pass': 'pwd'
+  'phabricator.base-uri': 'http://{{ domain }}/'
+  'pygments.enabled': 'true'
+  'storage.mysql-engine.max-size': '8000000'
+  'phabricator.timezone': 'America/New_York'
 
 repositories_path: /var/repo/
 timezone: America/New_York
