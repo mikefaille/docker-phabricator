@@ -5,9 +5,60 @@
   with_flattened: "{{php_packages}}"
   when: phase == "building"
 
-- name: Copy php.ini configuration
-  become: yes
-  template:
-    src: php.ini
+# - name: Copy php.ini configuration
+#   become: yes
+#   template:
+#     src: php.ini
+#     dest: /etc/php.d/phabricator.ini
+# # TODO      notify: start httpd
+
+- name: Adjust maximum POST request size PHP will accept
+  ini_file:
     dest: /etc/php.d/phabricator.ini
-# TODO      notify: start httpd
+    section: PHP
+    option: "post_max_size"
+    value: "64M"
+    mode: 0655
+    backup: yes
+    no_extra_spaces: yes
+  when: phase == "building"
+
+- name: Disable php memory limit. Let Phabricator manage this.
+  ini_file:
+    dest: /etc/php.d/phabricator.ini
+    section: PHP
+    option: "memory_limit"
+    value: "-1"
+    mode: 0655
+    backup: yes
+    no_extra_spaces: yes
+  when: phase == "building"
+
+- name: If a file has a lot of brackets in it, you may need to set it to some astronomically high value
+  ini_file:
+    dest: /etc/php.d/phabricator.ini
+    section: PHP
+    option: "max_input_vars"
+    value: "5000"
+    mode: 0655
+    backup: yes
+    no_extra_spaces: yes
+  when: phase == "building"
+
+- name: Disable php memory limit. Let Phabricator manage this.
+  ini_file:
+    dest: /etc/php.d/phabricator.ini
+    section: PHP
+    option: "upload_max_filesize"
+    value: "64MB"
+    mode: 0655
+    backup: yes
+    no_extra_spaces: yes
+  when: phase == "building"
+
+- name: restart httpd
+  become: yes
+  supervisorctl:
+    name: httpd
+    state: restarted
+  when: phase == "running"

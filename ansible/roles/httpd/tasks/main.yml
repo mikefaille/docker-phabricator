@@ -1,4 +1,9 @@
 ---
+- name: Install httpd
+  become: yes
+  package: name="httpd" state=present
+  when: phase == "building"
+
 - name: ensure httpd is enabled
   template:
     src: httpd.ini.j2
@@ -22,14 +27,13 @@
     - start httpd
   when: phase == "running"
 
-- name: Copy httpd config
+- name: Remove default site
   become: yes
   file:
     path: /etc/httpd/conf.d/welcome.conf
     state: absent
   notify:
     - start httpd
-  when: phase == "building"
 
 
 

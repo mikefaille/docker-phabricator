@@ -8,5 +8,6 @@ php_packages:
   - php-pecl-apc
   - php-pecl-json
   - php-mbstring
+  - php-opcache
 
 # See : https://github.com/phacility/phabricator/blob/master/scripts/install/install_rhel-derivs.sh
