@@ -9,7 +9,7 @@ phabricator_conf:
   'phabricator.base-uri': 'http://{{ domain }}/'
   'pygments.enabled': 'true'
   'storage.mysql-engine.max-size': '8000000'
-  'phabricator.timezone': {{ timezone }}
+  'phabricator.timezone': '{{ timezone }}'
 
 repositories_path: /var/repo/
 
