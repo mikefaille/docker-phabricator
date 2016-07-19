@@ -18,7 +18,6 @@
     # password: "$6$.nd53PkO$GuYKTpQQjtc.S35Rrp3xU1x0SetDU8nCDnT.0CMjuiqr6kiotkYeDkZHtE799qPxMHJeTf/Y9IHy7RRHmRhia/"
     # update_password: always
 
-
 - name: Install phd init script
   become: yes
   template:
@@ -107,8 +106,15 @@
 #     create: yes
 #   when: phase == "building"
 
+- name: Install python-pygments for syntax highlighting
+  package:
+    name: python-pygments
+    state: latest
+
 - name: Configure phabricator
-  command: "bin/config set {{ item.key }} {{ item.value }} "
+  become: yes
+  become_user: phd
+  command: "bin/config set {{ item.key }} {{ item.value }}"
   args:
     chdir: "{{ phabricator_path }}"
   with_dict:
