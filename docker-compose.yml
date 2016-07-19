@@ -1,0 +1,14 @@
+version: '2'
+services:
+  phabricator:
+    image: centos-phabricator
+    # build:
+    #   context: .
+    #   # args:
+    #   #   http_proxy: http://172.17.0.2
+    depends_on:
+      - mysql
+  mysql:
+    image: mikefaille/phabricator-mariadb
+    environment:
+      - "MYSQL_ROOT_PASSWORD=pwd"
