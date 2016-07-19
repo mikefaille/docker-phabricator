@@ -1,4 +1,4 @@
-FROM local/centos-ansible
+FROM mikefaille/centos-ansible
 # local/centos-ansible
 
 # Set the environment up
