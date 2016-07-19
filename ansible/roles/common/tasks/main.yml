@@ -21,6 +21,7 @@
     - openssh-server
     - supervisor
     - postfix
+    - which
   when: phase == "building"
 
 
