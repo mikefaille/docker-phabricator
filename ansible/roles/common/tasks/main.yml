@@ -20,6 +20,7 @@
     - git
     - openssh-server
     - supervisor
+    - postfix
   when: phase == "building"
 
 
